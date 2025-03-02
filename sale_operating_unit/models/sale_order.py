@@ -4,6 +4,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
@@ -42,6 +44,9 @@ class SaleOrder(models.Model):
     def _check_team_operating_unit(self):
         for rec in self:
             if rec.team_id and rec.team_id.operating_unit_id != rec.operating_unit_id:
+                _logger.info(rec.env.context)
+                _logger.info(rec.team_id)
+                _logger.info(rec.operating_unit_id)
                 raise ValidationError(
                     _(
                         "Configuration error. The Operating "

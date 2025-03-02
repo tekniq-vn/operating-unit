@@ -9,6 +9,20 @@ from odoo.exceptions import UserError
 class PurchaseRequisition(models.Model):
     _inherit = "purchase.requisition"
 
+    def _default_picking_type_id(self):
+        res = super()._default_picking_type_id()
+        type_obj = self.env["stock.picking.type"]
+        operating_unit = self.env["res.users"].operating_unit_default_get(self.env.uid)
+        types = type_obj.search(
+            [
+                ("code", "=", "incoming"),
+                ("warehouse_id.operating_unit_id", "=", operating_unit.id),
+            ]
+        )
+        if types:
+            res = types[:1].id
+        return res
+
     operating_unit_id = fields.Many2one(
         comodel_name="operating.unit",
         string="Operating Unit",
@@ -23,22 +37,8 @@ class PurchaseRequisition(models.Model):
         string="Picking Type",
         domain=[("code", "=", "incoming")],
         required=True,
-        default=lambda self: self._get_picking_in(),
+        default=_default_picking_type_id,
     )
-
-    def _get_picking_in(self):
-        res = super()._get_picking_in()
-        type_obj = self.env["stock.picking.type"]
-        operating_unit = self.env["res.users"].operating_unit_default_get(self.env.uid)
-        types = type_obj.search(
-            [
-                ("code", "=", "incoming"),
-                ("warehouse_id.operating_unit_id", "=", operating_unit.id),
-            ]
-        )
-        if types:
-            res = types[:1].id
-        return res
 
     @api.constrains("operating_unit_id", "company_id")
     def _check_company_operating_unit(self):

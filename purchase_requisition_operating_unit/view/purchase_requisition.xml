@@ -28,13 +28,13 @@
             ref="purchase_requisition.view_purchase_requisition_form"
         />
         <field name="arch" type="xml">
-            <field name="company_id" position="after">
+            <xpath expr="//sheet//field[@name='company_id']" position="after">
                 <field
                     name="operating_unit_id"
                     groups="operating_unit.group_multi_operating_unit"
                     options="{'no_create': True}"
                 />
-            </field>
+            </xpath>
             <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"

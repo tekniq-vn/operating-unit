@@ -42,7 +42,7 @@
         />
         <field name="arch" type="xml">
             <xpath
-                expr="//group[@name='groupby']/filter[@name='account_analytic_groupby']"
+                expr="//group[@name='groupby']/filter[@name='state_groupby']"
                 position="before"
             >
                 <filter

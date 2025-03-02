@@ -50,10 +50,10 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
     @api.model
     def _prepare_purchase_order(
-        self, picking_type, group_id, company, currency, origin
+        self, picking_type, group_id, company, origin
     ):
         data = super()._prepare_purchase_order(
-            picking_type, group_id, company, currency, origin
+            picking_type, group_id, company, origin
         )
         if self.operating_unit_id:
             data["requesting_operating_unit_id"] = self.operating_unit_id.id

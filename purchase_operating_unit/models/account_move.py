@@ -4,6 +4,8 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class AccountMove(models.Model):
@@ -45,6 +47,9 @@ class AccountMoveLine(models.Model):
                 line.purchase_line_id
                 and line.operating_unit_id != line.purchase_line_id.operating_unit_id
             ):
+                _logger.info(line.purchase_line_id)
+                _logger.info(line.operating_unit_id)
+                _logger.info(line.purchase_line_id.operating_unit_id)
                 raise ValidationError(
                     _(
                         "The operating unit of the purchase order must "

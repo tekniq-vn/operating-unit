@@ -79,11 +79,6 @@ class HrExpenseExpense(models.Model):
             sheet.update({"operating_unit_id": ous.id})
         return sheet_values
 
-    def _prepare_move_vals(self):
-        move_values = super()._prepare_move_vals()
-        move_values["operating_unit_id"] = self.operating_unit_id.id
-        return move_values
-
     def _prepare_move_line_vals(self):
         move_line_values = super()._prepare_move_line_vals()
         move_line_values["operating_unit_id"] = self.operating_unit_id.id
@@ -98,6 +93,12 @@ class HrExpenseSheet(models.Model):
         string="Operating Unit",
         default=lambda self: self.env["res.users"].operating_unit_default_get(),
     )
+
+    def _prepare_move_vals(self):
+        move_values = super()._prepare_move_vals()
+        move_values["operating_unit_id"] = self.operating_unit_id.id
+        return move_values
+
 
     @api.onchange("operating_unit_id")
     def _onchange_operating_unit_id(self):
