@@ -35,11 +35,11 @@
                     options="{'no_create': True}"
                 />
             </xpath>
-            <xpath expr="//field[@name='line_ids']" position="attributes">
+            <!--xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'operating_unit_id': operating_unit_id}</attribute>
-            </xpath>
+            </xpath-->
         </field>
     </record>
 
